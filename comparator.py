@@ -1,45 +1,48 @@
 from dataclasses import dataclass
 from functools import reduce
 
+# TODO: Skriv doctest og test fil
+
 @dataclass
 class Comparator:
     i: int
     j: int
 
 
-def make_comperator(i: int, j: int) -> Comparator:
+def make_comparator(i: int, j: int) -> Comparator:
     """ Returns a new object of class Comperator """
     return Comparator(i, j)
 
 def min_channel(c: Comparator) -> int:
-    """ Returns a minimum channel of a comperator """
+    """ Returns a minimum channel of a comparator """
     return min(c.i, c.j)
 
 def max_channel(c: Comparator) -> int:
-    """ Returns the maximum channel of a comperator """
+    """ Returns the maximum channel of a comparator """
     return max(c.i, c.j)
 
 def is_standard(c: Comparator) -> bool:
     """ 
-    Returns whether c is a standard comperator
-    meaning that it (i dont know bro)
+    Returns whether c is a standard comparator
+    meaning that it it places the lowest on the 
+    lowest (if i > j it works opposite)
     """
-    return True
+    return c.i < c.j
 
 def apply(c: Comparator, w: list[int]) -> list[int]:
-    """ Returns a list where a comperator c has been used upon """
+    """ Returns a list where a comparator c has been used upon """
     if w[c.i] > w[c.j]:
         w[c.i], w[c.j] = w[c.j], w[c.i] # Swaps the indexes
     return w
 
-def all_comperators(n: int) -> list[Comparator]:
-    """ Returns all possible comperators on n channels """
+def all_comparators(n: int) -> list[Comparator]:
+    """ Returns all possible comparators on n channels """
     # Use a DFS tree to generate
     res = []
 
     def _helper(n: int, i: int=0, j: int=1) -> None:
         if i != j:
-            res.append(make_comperator(i,j))
+            res.append(make_comparator(i,j))
 
         if i < n: # and i < j (std)
             _helper(n, i+1,j)
@@ -50,13 +53,13 @@ def all_comperators(n: int) -> list[Comparator]:
     return res
 
 def std_comparators(n: int) -> list[Comparator]:
-    """ Returns all possible standard comperators on n channels """
+    """ Returns all possible standard comparators on n channels """
     # Use a DFS tree to generate
     res = []
 
     def _helper(n: int, i: int=0, j: int=1) -> None:
         if i != j:
-            res.append(make_comperator(i,j))
+            res.append(make_comparator(i,j))
 
         if i < n and i < j:
             _helper(n, i+1,j)
@@ -71,3 +74,6 @@ def to_program(c: Comparator, var: str, aux: str) -> list[str]:
     return []
 
 
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
