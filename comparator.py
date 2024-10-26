@@ -16,6 +16,7 @@ def make_comparator(i: int, j: int) -> Comparator:
 def min_channel(c: Comparator) -> int:
     """ 
     Returns a minimum channel of a comparator
+    (test this in other functions? or use it?)
     
     >>> min_channel(make_comparator(1,2))
     1
@@ -61,7 +62,7 @@ def apply(c: Comparator, w: list[int]) -> list[int]:
 def all_comparators(n: int) -> list[Comparator]:
     """ 
     Returns all possible comparators on n channels 
-    Note to reader: Tested in ./tests.py
+    Note to dev: Tested in ./tests.py
     """
     # Use backtracking to generate possible combinations
     res = []
@@ -70,7 +71,7 @@ def all_comparators(n: int) -> list[Comparator]:
         if i != j:
             res.append(make_comparator(i,j))
 
-        if i < n: # and i < j (std)
+        if i < n: # and i < j ( if std )
             _helper(n, i+1,j)
         if j < n:
             _helper(n, i,j+1)
@@ -81,7 +82,7 @@ def all_comparators(n: int) -> list[Comparator]:
 def std_comparators(n: int) -> list[Comparator]:
     """ 
     Returns all possible standard comparators on n channels
-    Note to reader: Tested in ./tests.py
+    Note to dev: Tested in ./tests.py
     """
     # Use backtracking to generate possible combinations
     res = []
@@ -105,6 +106,7 @@ def to_program(c: Comparator, var: str, aux: str) -> list[str]:
     Will use c_i and c_j to represent start and end of comparator respectively.
     'var' is the list
     'aux' is the temporary variable for swapping
+    Note to dev: Tested in ./tests.py
     """
     res = []
     res.append(f'{aux} = {var}[{c.i}]') # assign temp
