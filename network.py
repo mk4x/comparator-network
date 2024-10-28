@@ -95,7 +95,7 @@ def all_outputs(net: Network, n: int) -> list[list[int]]:
     produces the sorted list and the network is succesful.
     """
     bin_permutations = set()
-
+    # test
     # Backtracking generation
     def _helper(path: list[int]=[]) -> None:
         if len(path) == n:

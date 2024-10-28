@@ -62,40 +62,59 @@ def all_comparators(n: int) -> list[Comparator]:
     """ 
     Returns all possible comparators on n channels 
     Note to reader: Tested in ./tests.py
+
+    # There are duplicates. Fix with hashable type tuple to set and convert
+    # with list comprehension
     """
-    # Use backtracking to generate possible combinations
     res = []
 
-    def _helper(n: int, i: int=0, j: int=1) -> None:
-        if i != j:
-            res.append(make_comparator(i,j))
+    def _helper_j(n: int, i: int, j: int=0) -> None:
+        if j >= n:
+            return
 
-        if i < n: # and i < j (std)
-            _helper(n, i+1,j)
-        if j < n:
-            _helper(n, i,j+1)
+        if i != j:
+            res.append(make_comparator(i, j))
+        
+        _helper_j(n, i, j+1)
+
+    def _helper_i(n: int, i: int=0) -> None:
+        if i >= n:
+            return
+        
+        _helper_j(n, i, 0)
+        _helper_i(n, i+1)
     
-    _helper(n)
+    _helper_i(n)
     return res
 
 def std_comparators(n: int) -> list[Comparator]:
     """ 
     Returns all possible standard comparators on n channels
     Note to reader: Tested in ./tests.py
+
+    # There are duplicates. Fix with hashable type tuple to set and convert
+    # with list comprehension
     """
     # Use backtracking to generate possible combinations
     res = []
 
-    def _helper(n: int, i: int=0, j: int=1) -> None:
-        if i != j:
-            res.append(make_comparator(i,j))
+    def _helper_j(n: int, i: int, j: int=0) -> None:
+        if j >= n:
+            return
 
-        if i < n and i < j: # i < j to secure standard comparators
-            _helper(n, i+1,j)
-        if j < n:
-            _helper(n, i,j+1)
+        if i != j:
+            res.append(make_comparator(i, j))
+        
+        _helper_j(n, i, j+1)
+
+    def _helper_i(n: int, i: int=0) -> None:
+        if i >= n:
+            return
+        
+        _helper_j(n, i, i+1)
+        _helper_i(n, i+1)
     
-    _helper(n)
+    _helper_i(n)
     return res
 
 def to_program(c: Comparator, var: str, aux: str) -> list[str]:
