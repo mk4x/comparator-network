@@ -81,7 +81,8 @@ def apply(net: Network, w: list[int]) -> list[int]:
 def outputs(net: Network, w: list[list[int]]) -> list[list[int]]:
     """ 
     Returns a list of lists without duplciates containing the network 
-    applied to each list in w
+    applied to each list in w.
+    Note to dev: Tested in ./tests.py
     """
     applied = map(lambda x: apply(net, x), w)  
     tuples = set([tuple(x) for x in applied])
@@ -91,8 +92,7 @@ def all_outputs(net: Network, n: int) -> list[list[int]]:
     """ 
     Returns all possible binary outputs of length n from net. 
     Meaning that it tests applies the net on all binary lists.
-    If it returns only 1 element in the list, then it only 
-    produces the sorted list and the network is succesful.
+    Note to dev: Tested in ./tests.py
     """
     bin_permutations = set()
     # test
@@ -110,7 +110,9 @@ def all_outputs(net: Network, n: int) -> list[list[int]]:
 def is_sorting(net: Network, size: int) -> bool:
     """ 
     Returns whether a network 'net' can be used to sort a list 
-    of length 'size'
+    of length 'size'. Works by testing if the results of the all_outputs
+    are all sorted.
+    Note to dev: Tested in ./tests.py
     """
     results = all_outputs(net, size)
     # Here we use recursion to check if sorted so we can quickly exit
@@ -136,6 +138,13 @@ def is_sorting(net: Network, size: int) -> bool:
 
 
 def to_program(c: Network, var: str, aux: str) -> list[str]:
+    """
+    Returns a list of strings that contain python code that when executed
+    will reproduce the work of a Network without calling the 'apply' function
+    'var' is the list
+    'aux' is the temporary variable for swapping
+    Note to dev: Tested in ./tests.py
+    """
     res = list(reduce(lambda x,y: x + cmp.to_program(y, var, aux), c.comparators ,[]))
     return res
 

@@ -16,6 +16,7 @@ def make_comparator(i: int, j: int) -> Comparator:
 def min_channel(c: Comparator) -> int:
     """ 
     Returns a minimum channel of a comparator
+    (test this in other functions? or use it?)
     
     >>> min_channel(make_comparator(1,2))
     1
@@ -124,6 +125,7 @@ def to_program(c: Comparator, var: str, aux: str) -> list[str]:
     Will use c_i and c_j to represent start and end of comparator respectively.
     'var' is the list
     'aux' is the temporary variable for swapping
+    Note to dev: Tested in ./tests.py
     """
     res = []
     res.append(f'{aux} = {var}[{c.i}]') # assign temp
