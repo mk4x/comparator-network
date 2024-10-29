@@ -69,23 +69,16 @@ def all_comparators(n: int) -> list[Comparator]:
     """
     res = []
 
-    def _helper_j(n: int, i: int, j: int=0) -> None:
-        if j >= n:
-            return
-
-        if i != j:
-            res.append(make_comparator(i, j))
-        
-        _helper_j(n, i, j+1)
-
-    def _helper_i(n: int, i: int=0) -> None:
+    def helper(n: int, i: int=0, j: int=0) -> None:
         if i >= n:
             return
-        
-        _helper_j(n, i, 0)
-        _helper_i(n, i+1)
-    
-    _helper_i(n)
+        if j >= n:
+            helper(n, i+1, 0)
+            return
+        if i != j:
+            res.append(make_comparator(i,j))
+        helper(n, i, j+1)
+    helper(n, 0, 1)
     return res
 
 def std_comparators(n: int) -> list[Comparator]:
@@ -99,30 +92,25 @@ def std_comparators(n: int) -> list[Comparator]:
     # Use backtracking to generate possible combinations
     res = []
 
-    def _helper_j(n: int, i: int, j: int=0) -> None:
-        if j >= n:
-            return
-
-        if i != j:
-            res.append(make_comparator(i, j))
-        
-        _helper_j(n, i, j+1)
-
-    def _helper_i(n: int, i: int=0) -> None:
+    def helper(n: int, i: int=0, j: int=0) -> None:
         if i >= n:
             return
-        
-        _helper_j(n, i, i+1)
-        _helper_i(n, i+1)
-    
-    _helper_i(n)
+        if j >= n:
+            helper(n, i+1, i+2)
+            return
+        if i != j:
+            res.append(make_comparator(i,j))
+        helper(n, i, j+1)
+    helper(n, 0, 1)
+    return res
+
     return res
 
 def to_program(c: Comparator, var: str, aux: str) -> list[str]:
     """ 
     Returns a list of strings that contain python code that when executed
     will reproduce the work of a comparator without calling the 'apply' function
-    Will use c_i and c_j to represent start and end of comparator respectively.
+    Will use c.i and c.j to represent start and end of comparator respectively.
     'var' is the list
     'aux' is the temporary variable for swapping
     Note to dev: Tested in ./tests.py
