@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from functools import reduce
 import comparator as cmp
 
-
 @dataclass
 class Network:
     """Class representing a Network of Comparators"""
@@ -166,7 +165,7 @@ def is_sorting(net: Network, size: int) -> bool:
 def to_program(c: Network, var: str, aux: str) -> list[str]:
     """
     Returns a list of strings that contain python code that when executed
-    will reproduce the work of a Network without calling the 'apply' function
+    will reproduce the work of a Network without explicitly calling the 'apply' function
     'var' is the list
     'aux' is the temporary variable for swapping
     """
